@@ -4,12 +4,17 @@ import TodoAddForm from '../components/TodoAddForm.jsx'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons"; // Import Left & Right Arrows
 import {getTodos} from "../api/todoApi.js"
+import {AuthContext} from "../context/Authcontext.jsx"
+import { useContext } from "react";
+
 
 
 function Todo() {
 
     const[isAddTaskModalOpen,setIsAddTaskModalOpen] = useState(false)
-    // const[isEditTaskModalOpen,setIsEditTaskModalOpen] = useState(false)
+    const [refreshTodos, setRefreshTodos] = useState(false);
+
+    const { user,logout } = useContext(AuthContext);
 
     const[page,setPage] = useState(1)
     const[limit,setLimit] = useState(10)
@@ -34,12 +39,24 @@ function Todo() {
           fetchtodos();
 
 
-    },[limit,page,types,isAddTaskModalOpen])
+    },[limit,page,types,isAddTaskModalOpen,refreshTodos])
 
   return (
     <div className='flex justify-center bg-[rgb(248,247,255)]'>
         <div className='border-2 border-black w-4/6'>
-        <p className='text-3xl font-bold my-5 text-center'>Todo List</p>
+        
+        {
+            user && (
+                <div className='text-right p-1'>
+                    <button className='px-2 py-1 bg-red-500 text-white rounded-md'
+                    onClick={logout}>
+                        Logout
+                    </button>
+                </div>
+            )
+        }
+        
+                <p className='text-3xl font-bold my-5 text-center'>Todo List</p>
         <div className='flex items-center justify-between m-2'>
             <div>
                 <button className='bg-blue-600 text-white px-3 py-1 rounded-md'
@@ -74,13 +91,13 @@ function Todo() {
 
             {
                 todos?.todos?.map((todo)=>{
-                    return <TodoRow todo={todo} key={todo.id} /> // setIsEditTaskModalOpen={setIsEditTaskModalOpen} isEditTaskModalOpen = {isEditTaskModalOpen} />
+                    return <TodoRow todo={todo} key={todo.id} onTodoUpdated={() => setRefreshTodos((prev) => !prev)} /> // setIsEditTaskModalOpen={setIsEditTaskModalOpen} isEditTaskModalOpen = {isEditTaskModalOpen} />
                 })
             }
         </div>
 
         {
-            isAddTaskModalOpen && <TodoAddForm setIsAddTaskModalOpen = {setIsAddTaskModalOpen}/>
+            isAddTaskModalOpen && <TodoAddForm setIsAddTaskModalOpen = {setIsAddTaskModalOpen} onTodoUpdated={() => setRefreshTodos((prev) => !prev)} />
         }
 
         <div className='flex justify-evenly'>

@@ -4,7 +4,7 @@ import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import TodoAddForm from './TodoAddForm';
 import {deleteTodo,updateTodo} from '../api/todoApi.js'
 
-function TodoRow({todo,...props}) {
+function TodoRow({todo,onTodoUpdated,...props}) {
 
     const[isEditTaskModalOpen,setIsEditTaskModalOpen] = useState(false)
 
@@ -15,14 +15,14 @@ function TodoRow({todo,...props}) {
         const updateRes = await updateTodo(todo.id,{completed:status})
         console.log('toggled_successfully',updateRes);
         setStatus((priv)=>!priv)
-
+        onTodoUpdated();
     }
 
     const handleDeleteVideo = async() => {
         console.log(todo.id);
         const delRes = await deleteTodo(todo.id)
         console.log('deleted_successfully',delRes);
-           
+        onTodoUpdated();
     }
 
   return (
@@ -49,7 +49,7 @@ function TodoRow({todo,...props}) {
         </div>
 
         {
-            isEditTaskModalOpen && <TodoAddForm todo = {todo} setIsAddTaskModalOpen = {setIsEditTaskModalOpen}/>
+            isEditTaskModalOpen && <TodoAddForm todo = {todo} setIsAddTaskModalOpen = {setIsEditTaskModalOpen} onTodoUpdated = {onTodoUpdated}/>
         }
 
     </div>

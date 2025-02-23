@@ -9,13 +9,12 @@ const axiosInstance = axios.create({
   },
 });
 
-// Interceptor for automatically attaching tokens (if needed)
-// axiosInstance.interceptors.request.use((config) => {
-//   const token = localStorage.getItem("token"); // Get from local storage
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-//   return config;
-// });
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("accessToken"); // Get from local storage
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export default axiosInstance;

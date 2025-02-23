@@ -5,7 +5,7 @@ import {AddTodo,updateTodo} from "../api/todoApi.js"
 
 
 // top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-function TodoAddForm({todo,setIsAddTaskModalOpen}) {
+function TodoAddForm({todo,setIsAddTaskModalOpen,onTodoUpdated}) {
 
     const [fields,setFields] = useState({
         todo:todo?.todo||"",
@@ -33,17 +33,18 @@ function TodoAddForm({todo,setIsAddTaskModalOpen}) {
                 console.log("todo updated successfully:", updatedTodo);
                 alert("todo updated successfully:");
                 setIsAddTaskModalOpen((priv)=>!priv)
-            
             }else{
                 const newTodo = await AddTodo({...fields,userId:200})
                 console.log("todo added successfully:", newTodo);
                 alert("todo added successfully:");
                 setFields((priv)=>{
                     return {...priv,todo:""}
-                }
-            )
+                    }
+                )
             }
+            console.log(onTodoUpdated);
             
+            onTodoUpdated();
             
           } catch (err) {
             setError("Failed to add/update todo.");
