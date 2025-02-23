@@ -28,13 +28,15 @@ function TodoAddForm({todo,setIsAddTaskModalOpen,onTodoUpdated}) {
         console.log(error,fields);
 
         try {
-            if (todo?.id){
-                const updatedTodo = await updateTodo(todo.id, fields)
+            if (todo?._id){
+                console.log("in update block");
+                
+                const updatedTodo = await updateTodo(todo._id, fields)
                 console.log("todo updated successfully:", updatedTodo);
                 alert("todo updated successfully:");
                 setIsAddTaskModalOpen((priv)=>!priv)
             }else{
-                const newTodo = await AddTodo({...fields,userId:200})
+                const newTodo = await AddTodo({...fields})
                 console.log("todo added successfully:", newTodo);
                 alert("todo added successfully:");
                 setFields((priv)=>{

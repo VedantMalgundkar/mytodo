@@ -11,16 +11,16 @@ function TodoRow({todo,onTodoUpdated,...props}) {
     const [status,setStatus] = useState(todo.completed)
 
     const handlesStatusToggle = async() =>{
-        console.log(todo.id);
-        const updateRes = await updateTodo(todo.id,{completed:status})
+        console.log(todo._id);
+        const updateRes = await updateTodo(todo._id,{completed:status})
         console.log('toggled_successfully',updateRes);
         setStatus((priv)=>!priv)
         onTodoUpdated();
     }
 
     const handleDeleteVideo = async() => {
-        console.log(todo.id);
-        const delRes = await deleteTodo(todo.id)
+        console.log(todo._id);
+        const delRes = await deleteTodo(todo._id)
         console.log('deleted_successfully',delRes);
         onTodoUpdated();
     }

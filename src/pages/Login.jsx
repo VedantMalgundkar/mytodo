@@ -13,7 +13,7 @@ function Login() {
     const onSubmit = async (data) => {
         console.log(data);
         
-        const result = await login(data.username, data.password);
+        const result = await login(data.email, data.password);
         if (result.success) {
             navigate("/todo");
         } else {
@@ -27,9 +27,10 @@ function Login() {
             {error && <p className="text-red-500">{error}</p>}
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
                 <input
-                    type="text"
-                    placeholder="username"
-                    {...register("username", { required: "username is required" })}
+                    type="email"
+                    placeholder="email"
+                    required
+                    {...register("email", { required: "email is required" })}
                     className="border p-2"
                 />
                 {errors.email && <p className="text-red-500">{errors.email.message}</p>}

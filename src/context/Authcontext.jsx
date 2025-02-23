@@ -26,11 +26,11 @@ export const AuthProvider = ({ children }) => {
         }
     }, [token]);
 
-    // useEffect(()=>{
-    //     console.log("token changed",token);
-    //     console.log("user changed:",user);
+    useEffect(()=>{
+        console.log("token changed",token);
+        console.log("user changed:",user);
         
-    // },[token,user])
+    },[token,user])
 
     const fetchUserProfile = async () => {
         try {
@@ -58,13 +58,13 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const login = async (username, password) => {
-        console.log("in Auth",username,password);
+    const login = async (email, password) => {
+        console.log("in Auth",email,password);
         
         try {
-            const response = await axiosInstance.post("/auth/login", { username, password });
+            const response = await axiosInstance.post("/auth/login", { email, password });
             console.log(response);
-            const token = {accessToken:response.data?.accessToken,refreshToken:response.data?.refreshToken};
+            const token = {accessToken:response.data.data?.accessToken,refreshToken:response.data.data?.refreshToken};
             
             setToken(token);
             return { success: true, message: "Login successful!" };
@@ -73,7 +73,14 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const logout = () => {
+    const logout = async () => {
+        try {
+            const response = await axiosInstance.post("/auth/logout");
+            console.log(response);
+        } catch (error) {
+            return { success: false, message: error.response?.data?.message || "Logout failed" };
+            
+        }
         setToken(null);
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");

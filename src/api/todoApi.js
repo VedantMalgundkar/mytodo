@@ -1,28 +1,30 @@
 import axiosInstance from "./axiosInstance";
 
 
-export const getTodos = async (limit = 10,skip = 0) =>{
+export const getTodos = async (params) => {
+    const response = await axiosInstance.get("/todos", { params: params });
 
-    const response = await axiosInstance.get("/todos",
-        {
-            params: {
-                limit,
-                skip
-            }
-        }
-    );
-    return response.data;
+    console.log("API Response:", response);
 
-}
+    return response; // Ensure you're returning the right structure
+};
 
 export const updateTodo = async (id,data) =>{
-    try {
-        const response = await axiosInstance.patch(`/todos/${id}`,data);
-        return response.data
-    } catch (error) {
-        console.error("Error updating todo:", error.response ? error.response.data : error.message);
-        throw error;
-    }
+
+    console.log(id,data);
+
+    const response = await axiosInstance.patch(`/todos/${id}`,data);
+    console.log(response);
+    return response.data
+    // try {
+    //     const response = await axiosInstance.patch(`/todos/${id}`,data);
+    //     console.log(response);
+        
+    //     return response.data
+    // } catch (error) {
+    //     console.error("Error updating todo:", error.response ? error.response.data : error.message);
+    //     throw error;
+    // }
 
 }
 export const AddTodo = async (data) =>{
