@@ -11,20 +11,15 @@ export const getTodos = async (params) => {
 
 export const updateTodo = async (id,data) =>{
 
-    console.log(id,data);
-
-    const response = await axiosInstance.patch(`/todos/${id}`,data);
-    console.log(response);
-    return response.data
-    // try {
-    //     const response = await axiosInstance.patch(`/todos/${id}`,data);
-    //     console.log(response);
+    try {
+        const response = await axiosInstance.patch(`/todos/${id}`,data);
+        console.log(response);
         
-    //     return response.data
-    // } catch (error) {
-    //     console.error("Error updating todo:", error.response ? error.response.data : error.message);
-    //     throw error;
-    // }
+        return response.data
+    } catch (error) {
+        console.error("Error updating todo:", error.response ? error.response.data : error.message);
+        throw error;
+    }
 
 }
 export const AddTodo = async (data) =>{

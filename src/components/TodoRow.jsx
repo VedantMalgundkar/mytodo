@@ -11,9 +11,7 @@ function TodoRow({todo,onTodoUpdated,...props}) {
     const [status,setStatus] = useState(todo.completed)
 
     const handlesStatusToggle = async() =>{
-        console.log(todo._id);
-        const updateRes = await updateTodo(todo._id,{completed:status})
-        console.log('toggled_successfully',updateRes);
+        const updateRes = await updateTodo(todo._id,{completed:!status})
         setStatus((priv)=>!priv)
         onTodoUpdated();
     }

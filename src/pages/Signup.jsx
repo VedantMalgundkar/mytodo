@@ -11,7 +11,7 @@ function Signup() {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = async (data) => {
-        const result = await signUp(data.email, data.password);
+        const result = await signUp(data.fullName,data.email, data.password);
         if (result.success) {
             navigate("/login");
         } else {
@@ -24,6 +24,12 @@ function Signup() {
             <h2 className="text-2xl mb-4">Sign Up</h2>
             {error && <p className="text-red-500">{error}</p>}
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+                <input
+                    type="text"
+                    placeholder="full name"
+                    {...register("fullName", { required: "full name is required" })}
+                    className="border p-2"
+                />
                 <input
                     type="email"
                     placeholder="Email"

@@ -48,9 +48,9 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const signUp = async (email, password) => {
+    const signUp = async (fullName,email, password) => {
         try {
-            const response = await axiosInstance.post("/auth/signup", { email, password });
+            const response = await axiosInstance.post("/auth/signup", { fullName,email, password });
             // setToken(response.data);
             return { success: true, message: "Sign up successful!" };
         } catch (error) {
